@@ -1,0 +1,22 @@
+export const employees = [
+  { id: 1, name: "Amit Sharma", role: "Frontend Engineer", experience: 3, location: "Pune" },
+  { id: 2, name: "Neha Verma", role: "Backend Engineer", experience: 5, location: "Mumbai" },
+  { id: 3, name: "Rahul Mehta", role: "QA Engineer", experience: 2, location: "Bangalore" },
+  { id: 4, name: "Sneha Patil", role: "UI Engineer", experience: 4, location: "Pune" },
+  { id: 5, name: "Arjun Rao", role: "DevOps Engineer", experience: 6, location: "Hyderabad" },
+  { id: 6, name: "Pooja Kulkarni", role: "Frontend Engineer", experience: 2, location: "Nagpur" },
+  { id: 7, name: "Vikas Singh", role: "Backend Engineer", experience: 7, location: "Delhi" },
+  { id: 8, name: "Ritu Malhotra", role: "Product Analyst", experience: 5, location: "Gurgaon" },
+  { id: 9, name: "Saurabh Jain", role: "QA Engineer", experience: 3, location: "Indore" },
+  { id: 10, name: "Kiran Joshi", role: "Frontend Engineer", experience: 4, location: "Ahmedabad" },
+  { id: 11, name: "Ankit Gupta", role: "Tech Lead", experience: 9, location: "Bangalore" },
+  { id: 12, name: "Rohini Deshpande", role: "UX Designer", experience: 6, location: "Pune" },
+  { id: 13, name: "Manish Patel", role: "Backend Engineer", experience: 5, location: "Surat" },
+  { id: 14, name: "Simran Kaur", role: "QA Engineer", experience: 3, location: "Chandigarh" },
+  { id: 15, name: "Deepak Yadav", role: "Frontend Engineer", experience: 1, location: "Noida" },
+  { id: 16, name: "Priya Nair", role: "Product Manager", experience: 8, location: "Kochi" },
+  { id: 17, name: "Akash Mishra", role: "Backend Engineer", experience: 4, location: "Bhopal" },
+  { id: 18, name: "Nidhi Saxena", role: "UI Engineer", experience: 2, location: "Jaipur" },
+  { id: 19, name: "Mohit Agarwal", role: "QA Engineer", experience: 6, location: "Kanpur" },
+  { id: 20, name: "Shreya Bose", role: "Frontend Engineer", experience: 3, location: "Kolkata" }
+];
