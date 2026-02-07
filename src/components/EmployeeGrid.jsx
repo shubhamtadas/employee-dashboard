@@ -1,82 +1,122 @@
 import { AgGridReact } from "ag-grid-react";
+import { departmentColors } from "../data/departmentColors"
 import { useMemo, useState } from "react";
 
-/* ---------- Role Badge Renderer ---------- */
-const RoleIndicator = ({ value }) => {
-  const roleColorMap = {
-    "Frontend Engineer": "#2563eb",
-    "Backend Engineer": "#16a34a",
-    "QA Engineer": "#ca8a04",
-    "UI Engineer": "#7c3aed",
-    "DevOps Engineer": "#dc2626",
-    "Tech Lead": "#111827",
-    "Product Manager": "#0f766e",
-    "Product Analyst": "#4b5563",
-    "UX Designer": "#db2777",
+/* ---------- Department Indicator ---------- */
+const DepartmentIndicator = ({ value }) => {
+  const departmentColors = {
+    Engineering: "#2563eb",
+    Marketing: "#d97706",
+    Sales: "#059669",
+    HR: "#7c3aed",
+    Finance: "#0891b2",
   };
-
-  const color = roleColorMap[value] || "#6b7280";
 
   return (
     <div
       className="role-indicator"
-      style={{ borderLeft: `4px solid ${color}` }}
+      style={{
+        borderLeftColor: departmentColors[value] || "#6b7280",
+      }}
     >
       {value}
     </div>
   );
 };
 
-const LegendItem = ({ label, color }) => {
-  return (
-    <div className="legend-item">
-      <span
-        className="legend-line"
-        style={{ backgroundColor: color }}
-      />
-      <span className="legend-label">{label}</span>
-    </div>
-  );
-};
-
-/* ---------- Grid Component ---------- */
-const EmployeeGrid = ({ data }) => {
+/* ---------- Employee Grid ---------- */
+const EmployeeGrid = ({ rowData }) => {
   const [quickFilterText, setQuickFilterText] = useState("");
 
   const columnDefs = useMemo(
     () => [
-      { headerName: "ID", field: "id", width: 80, sortable: true },
-      { headerName: "Name", field: "name", sortable: true, filter: true },
+      { headerName: "ID", field: "id", width: 80 },
+
       {
-        headerName: "Role",
-        field: "role",
-        sortable: true,
-        filter: true,
-        cellRenderer: RoleIndicator,
+        headerName: "Name",
+        valueGetter: (p) => `${p.data.firstName} ${p.data.lastName}`,
+        flex: 1.3,
       },
+
+      { headerName: "Email", field: "email", flex: 1.5 },
+
       {
-        headerName: "Experience (Years)",
-        field: "experience",
-        sortable: true,
-        filter: "agNumberColumnFilter",
+        headerName: "Department",
+        field: "department",
+        cellRenderer: DepartmentIndicator,
+        flex: 1,
       },
-      { headerName: "Location", field: "location", filter: true },
+
+      { headerName: "Position", field: "position", flex: 1.2 },
+
+      { headerName: "Manager", field: "manager", flex: 1 },
+
+      { headerName: "Location", field: "location", flex: 1 },
+
+      {
+        headerName: "Salary",
+        field: "salary",
+        valueFormatter: (p) => (p.value ? `₹${p.value.toLocaleString()}` : ""),
+        width: 130,
+      },
+
+      {
+        headerName: "Hire Date",
+        field: "hireDate",
+        valueFormatter: (p) =>
+          p.value ? new Date(p.value).toLocaleDateString() : "",
+        width: 130,
+      },
+
+      { headerName: "Age", field: "age", width: 90 },
+
+      {
+        headerName: "Performance",
+        field: "performanceRating",
+        width: 130,
+      },
+
+      {
+        headerName: "Projects",
+        field: "projectsCompleted",
+        width: 110,
+      },
+
+      {
+        headerName: "Skills",
+        field: "skills",
+        valueFormatter: (p) => p.value?.join(", "),
+        flex: 1.5,
+      },
+
+      {
+        headerName: "Status",
+        valueGetter: (p) => (p.data.isActive ? "Active" : "Inactive"),
+        width: 110,
+        cellStyle: (p) => ({
+          color: p.value === "Active" ? "#065f46" : "#9b1c1c",
+          fontWeight: 500,
+        }),
+      },
     ],
     [],
   );
 
   const defaultColDef = useMemo(
     () => ({
-      flex: 1,
-      minWidth: 120,
+      sortable: true,
+      filter: true,
       resizable: true,
+      minWidth: 120,
     }),
     [],
   );
 
   return (
     <>
+      {/* Toolbar */}
       <div className="grid-toolbar">
+        {/* Search */}
         <input
           type="text"
           placeholder="Search employees..."
@@ -84,19 +124,24 @@ const EmployeeGrid = ({ data }) => {
           onChange={(e) => setQuickFilterText(e.target.value)}
         />
 
-        <div className="role-legend">
-          <LegendItem label="Frontend" color="#2563eb" />
-          <LegendItem label="Backend" color="#16a34a" />
-          <LegendItem label="QA" color="#ca8a04" />
-          <LegendItem label="UI" color="#7c3aed" />
-          <LegendItem label="DevOps" color="#dc2626" />
+        {/* Department Legend */}
+        <div className="department-legend">
+          {Object.entries(departmentColors).map(([dept, color]) => (
+            <div key={dept} className="legend-item">
+              <span
+                className="legend-color"
+                style={{ backgroundColor: color }}
+              />
+              <span>{dept}</span>
+            </div>
+          ))}
         </div>
       </div>
 
+      {/* Grid */}
       <div className="ag-theme-alpine grid-container">
         <AgGridReact
-          theme="legacy"
-          rowData={data}
+          rowData={rowData}
           columnDefs={columnDefs}
           defaultColDef={defaultColDef}
           quickFilterText={quickFilterText}
@@ -105,6 +150,7 @@ const EmployeeGrid = ({ data }) => {
           paginationPageSizeSelector={[10, 15, 20]}
           animateRows
           suppressCellFocus
+          theme="legacy"
         />
       </div>
     </>

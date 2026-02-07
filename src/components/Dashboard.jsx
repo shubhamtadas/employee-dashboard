@@ -10,7 +10,7 @@ const Dashboard = () => {
       </header>
 
       <section className="dashboard-content">
-        <EmployeeGrid data={employees} />
+        <EmployeeGrid rowData={employees} />
       </section>
     </div>
   );
